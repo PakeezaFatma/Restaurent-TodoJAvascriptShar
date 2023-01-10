@@ -1,7 +1,3 @@
-function print(){
-    console.log("Hi")
-}
-print();
 function saveToLocalStorage(event)
 {
    
@@ -9,14 +5,15 @@ function saveToLocalStorage(event)
     const price = document.getElementById('amount').value;
     const dish = document.getElementById('dish').value;
     const table = document.getElementById('table').value;
-    console.log("in function");
+    console.log(table)
+   
     const obj={
         price,
         dish,
         table
         
     }
-    console.log("error");
+    
    axios.post("https://crudcrud.com/api/4c60b8a35b844e12a658a968951bd76f/order",obj)
    .then((response) =>{
     console.log(response);
@@ -32,13 +29,25 @@ function saveToLocalStorage(event)
     document.getElementById('amount').value ='';
     document.getElementById('dish').value ='';
     document.getElementById('table').value='';
-    if(localStorage.getItem(order.table)!== null)
+    
+    
+    // const parentNode= document.getElementById('listofOrder1');
+
+
+
+    if(`${order.table}` === "table1")
     {
-        removeOrderFromScreen(order.table)
+
+        var parentNode= document.getElementById('listofOrder1'); 
     }
-    const parentNode= document.getElementById('listofOrder1,listofOrder2,listofOrder3');
-    const childHTML =`<li id=${order._id}>${order.price} - ${order.dish} - ${order.table}
-    <button onclick=deleteOrder('${order._id}')> Delete Order </button>   
+    else if(`${order.table}` === "table2"){
+        var parentNode= document.getElementById('listofOrder2'); 
+    }
+    else{
+        var parentNode= document.getElementById('listofOrder3');
+    }
+    const childHTML =`<li class="inputs" textDecoration="none" id=${order._id}>Price: ${order.price} - Dish: ${order.dish} - TableNo: ${order.table}
+    <button class="todo-btn" onclick=deleteOrder('${order._id}')> Delete Order </button>   
 
     </li>`
     parentNode.innerHTML=parentNode.innerHTML+childHTML;
@@ -66,9 +75,8 @@ function deleteOrder(orderId){
     })
 }
 
-
 function removeOrderFromScreen(orderId){
-    const parentNode = document.getElementById('listofOrder1,listofOrder2,listofOrder3');
+    const parentNode = document.getElementById('listofOrder1');
     const childNodeToBeDeleted = document.getElementById(orderId);
     if(childNodeToBeDeleted){
         parentNode.removeChild(childNodeToBeDeleted)
